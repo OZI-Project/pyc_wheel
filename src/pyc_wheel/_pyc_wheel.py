@@ -64,6 +64,10 @@ def convert_wheel(whl_file: Path, *, exclude=None, with_backup=False, quiet=Fals
                     py_file.unlink()
 
         for root, dirs, files in os.walk(whl_dir):
+            pycache = Path(root, "__pycache__")
+            if pycache.exists():
+                if not quiet: print("Removing {!s}".format(pycache))
+                shutil.rmtree(pycache)
             for fname in files:
                 if fname.endswith(".py"):
                     py_file = Path(root)/fname
