@@ -90,7 +90,8 @@ def convert_wheel(whl_file: Path, *, exclude=None, with_backup=False, quiet=Fals
                 pass  # ignore errors
 
         dist_info_path = whl_path.joinpath("{}.dist-info".format(dist_info)).resolve().relative_to(whl_path.resolve())
-        rewrite_dist_info(dist_info_path, exclude=exclude)
+        if dist_info_path.exists():
+            rewrite_dist_info(dist_info_path, exclude=exclude)
 
         # Rezip the file with the new version info
         whl_file_zip = whl_path.with_suffix(".zip")
